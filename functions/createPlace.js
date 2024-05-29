@@ -6,13 +6,20 @@ const client = new faunadb.Client({
 });
 
 exports.handler = async (event, context) => {
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: "Method not allowed" }),
+    };
+  }
+
+  const data = JSON.parse(event.body);
+
   try {
     const result = await client.query(
-      q.Map(
-        q.Paginate(q.Documents(q.Collection("Place"))),
-        q.Lambda((x) => q.Get(x))
-      )
+      q.Create(q.Collection("Place"), { data })
     );
+
     return {
       statusCode: 200,
       body: JSON.stringify(result),
