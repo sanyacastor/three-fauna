@@ -2,4 +2,4 @@
   functions = "functions"
 
 [dev]
-  command = "npm run build"
+  command = "npm run dev"

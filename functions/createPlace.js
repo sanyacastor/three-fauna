@@ -1,8 +1,7 @@
-const faunadb = require("fauna");
-const q = faunadb.query;
+const { Client, fql } = require("fauna");
 
-const client = new faunadb.Client({
-  secret: import.meta.env.VITE_FAUNADB_SECRET,
+const client = new Client({
+  secret: process.env.FAUNADB_SECRET,
 });
 
 exports.handler = async (event, context) => {
@@ -16,9 +15,7 @@ exports.handler = async (event, context) => {
   const data = JSON.parse(event.body);
 
   try {
-    const result = await client.query(
-      q.Create(q.Collection("Place"), { data })
-    );
+    const result = await client.query(fql`Place.create(${{ ...data }})`);
 
     return {
       statusCode: 200,

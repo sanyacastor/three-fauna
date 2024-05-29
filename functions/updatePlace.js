@@ -1,15 +1,14 @@
-const faunadb = require('fauna');
-const q = faunadb.query;
+const { Client, fql } = require("fauna");
 
-const client = new faunadb.Client({
-  secret: import.meta.env.FAUNADB_SECRET
+const client = new Client({
+  secret: process.env.FAUNADB_SECRET,
 });
 
 exports.handler = async (event, context) => {
-  if (event.httpMethod !== 'PUT') {
+  if (event.httpMethod !== "PUT") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: 'Method not allowed' }),
+      body: JSON.stringify({ error: "Method not allowed" }),
     };
   }
 
@@ -17,20 +16,17 @@ exports.handler = async (event, context) => {
 
   try {
     const result = await client.query(
-      q.Update(
-        q.Ref(q.Collection('Place'), id),
-        { data: updateData }
-      )
+      fql`Place.byId(${id})!.update(${{ ...updateData }})`
     );
 
     return {
       statusCode: 200,
-      body: JSON.stringify(result)
+      body: JSON.stringify(result),
     };
   } catch (error) {
     return {
       statusCode: 400,
-      body: JSON.stringify(error)
+      body: JSON.stringify(error),
     };
   }
 };

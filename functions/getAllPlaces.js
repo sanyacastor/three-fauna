@@ -1,21 +1,19 @@
-const faunadb = require("fauna");
-const q = faunadb.query;
+const { Client, fql } = require("fauna");
 
-const client = new faunadb.Client({
-  secret: import.meta.env.VITE_FAUNADB_SECRET,
+const client = new Client({
+  secret: process.env.FAUNADB_SECRET,
 });
+
+const placesQuery = fql`Place.all()`;
 
 exports.handler = async (event, context) => {
   try {
-    const result = await client.query(
-      q.Map(
-        q.Paginate(q.Documents(q.Collection("Place"))),
-        q.Lambda((x) => q.Get(x))
-      )
-    );
+    const queryResult = await client.query(placesQuery);
+    const documents = queryResult.data.data;
+
     return {
       statusCode: 200,
-      body: JSON.stringify(result),
+      body: JSON.stringify(documents),
     };
   } catch (error) {
     return {
