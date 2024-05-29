@@ -1,4 +1,4 @@
-const faunadb = require('faunadb');
+const faunadb = require('fauna');
 const q = faunadb.query;
 
 const client = new faunadb.Client({
