@@ -5,23 +5,25 @@ class DataUpdater {
     this.apiUrl = apiUrl;
   }
 
-  async updatePlace(id, updateData) {
-    updateData = {"name":"Test Place 86","xr_objects":[{"id":399198613290352830,"name":"Gear02211","pos":[0.42,-0.3,0.42],"rot":[0.42,0.42,0,1],"scale":[1,1,1]}]}
-
+  async updatePlace(id_string, updateData) {
+    if(id_string == undefined) {
+      id_string = "399239316304298187";
+      console.log("Warning: updatePlace(id == undef) assigning it to default 399239316304298187")
+    }
     
     if (this.useTestDataInsteadDB) {
-      console.log('Update place:', id, updateData);
+      console.log('Update place:', id_string, updateData);
       return updateData;
     }
     else {
       try {
-        console.log('Updating place: id:', id + " JSON.stringify(data): " + JSON.stringify(updateData) + " apiUrl: " + this.apiUrl);
+        console.log('Updating place: id:', id_string + " JSON.stringify(data): " + JSON.stringify(updateData) + " apiUrl: " + this.apiUrl);
         const response = await fetch(this.apiUrl, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id:'399239316304298187', ...updateData }),
+          body: JSON.stringify({ id: id_string, ...updateData }),
         });
 
         if (!response.ok) {
