@@ -46,7 +46,7 @@ document.body.appendChild(renderer.domElement);
 // ================== Tools =================
 
 // ----------------- data -----------------
-var use_testdata_insteadDB = true;
+var use_testdata_insteadDB = false;
 var xrobjectDataManager =  new xrobjectdata_manager();
 var dataLoader = new data_loader(use_testdata_insteadDB);
 var loader = new FBXLoader();
@@ -60,11 +60,8 @@ let debug_camera_controller_instance = new debug_camera_controller(camera, 0.1);
 
 // ----------------- test -----------------
 
-
-
 /*let xrobjectData = xrobjectDataManager.get_xrobject(''8324891730946216012-46-21463);
 console.log("xrobjectData: >>" + xrobjectData.name + ": " + xrobjectData.model_path + "<<");*/
-
 
 // ================= ARButton ===================
 
