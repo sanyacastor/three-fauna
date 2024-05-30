@@ -20,7 +20,7 @@ class DataUpdater {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id, ...updateData }),
+          body: JSON.stringify({ id, updateData }),
         });
 
         if (!response.ok) {
