@@ -12,6 +12,7 @@ class DataUpdater {
     }
     else {
       try {
+        console.log('Updating place: id:', id + " data: " + updateData + " apiUrl: " + this.apiUrl);
         const response = await fetch(this.apiUrl, {
           method: 'PUT',
           headers: {
