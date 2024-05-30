@@ -1,0 +1,13 @@
+.hud_button {
+    display: block;
+    width: 200px;
+    height: 100px;
+    background-color: #ff000050
+  }
+  
+  .buttons_panel{
+      display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
