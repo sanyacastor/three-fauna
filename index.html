@@ -39,8 +39,11 @@
       console.log("________/test load file_________");
 
       console.log("_________test read file_________");      
-      var places = await dataLoader.loadSaveData();
-      dataLoader.displayPlaces(places);
+      let res = await dataLoader.loadSaveData();
+      let exactPlace = pickExactPlace('399239316304298187');
+      dataLoader.displayPlaces([exactPlace]);
+      //var places = await dataLoader.loadSaveData();
+      //dataLoader.displayPlaces(places);
       console.log("________/test read file_________");
     });
 

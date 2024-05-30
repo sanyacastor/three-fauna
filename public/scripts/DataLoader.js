@@ -3,14 +3,31 @@ class DataLoader {
     this.saveDataString = '';
     this.useTestData = useTestData;
     this.testSaveString = '[{"coll":{"name":"Place"},"id":"399239316304298187","ts":{"isoString":"2024-05-29T22:04:56.890Z"},"name":"Initial test place","xr_objects":[{"id":399198485711159500,"name":"Polyhedron","pos":[0,0.3,0],"rot":[0,0,0,1],"scale":[1,1,1]},{"id":399198613290352830,"name":"Gear01","pos":[0,-0.3,0],"rot":[0,0,0,1],"scale":[1,1,1]}]},{"coll":{"name":"Place"},"id":"399255095038968011","ts":{"isoString":"2024-05-29T21:30:17.830Z"},"name":"Test Place 2","xr_objects":[{"id":399198613290352830,"name":"Gear01","pos":[0,-0.3,0],"rot":[0,0,0,1],"scale":[1,1,1]}]}]';
+    this.allPlaces = [];
   }
 
   async loadSaveData() {
     if (this.useTestData) {
       this.saveDataString = this.testSaveString;
-      return JSON.parse(this.testSaveString);
+       this.allPlaces = JSON.parse(this.testSaveString);
+       return true;
     } else {
       return await this.fetchPlaces();
+    }
+
+    return false;
+  }
+
+  pickExactPlace(requested_id) {
+    if(requested_id==undefined) {
+      requested_id = "399239316304298187";
+      console.log("Warning: pickExactPlace(id == undef) assigning it to default 399239316304298187")
+    }
+
+    for (let i = 0; i < this.allPlaces.length; i++) {
+      if (this.allPlaces[i].id === requested_id) {
+        return this.allPlaces[i];
+      }
     }
   }
 
@@ -21,6 +38,7 @@ class DataLoader {
         throw new Error('Network response was not ok');
       }
       const places = await response.json();
+      this.allPlaces = places;
       this.saveDataString = JSON.stringify(places);
 
       console.log("loaded_data: >>" + JSON.stringify(places) + "<<");
@@ -31,7 +49,6 @@ class DataLoader {
 
     return undefined;
   }
-
   
   displayPlaces(places) {
     const placesList = document.getElementById('placesList');
