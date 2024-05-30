@@ -14,13 +14,13 @@
 </body>
 </html>
 
-<script src="/public/scripts/DataLoader.js"></script>
+<script src="/scripts/DataLoader.js"></script>
   <script>
     var dataLoader;
 
     document.addEventListener('DOMContentLoaded', async () => {
       var dataLoader = new DataLoader(false);
-      
+
       console.log('DOM loaded');
       const places = await dataLoader.loadSaveData();
       dataLoader.displayPlaces(places);
