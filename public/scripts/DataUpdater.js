@@ -8,6 +8,7 @@ class DataUpdater {
   async updatePlace(id, updateData) {
     updateData = {"name":"Test Place 2","xr_objects":[{"id":399198613290352830,"name":"Gear011","pos":[0.42,-0.3,0.42],"rot":[0.42,0.42,0,1],"scale":[1,1,1]}]}
 
+    
     if (this.useTestDataInsteadDB) {
       console.log('Update place:', id, updateData);
       return updateData;
@@ -20,7 +21,7 @@ class DataUpdater {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id, ...updateData }),
+          body: JSON.stringify({ id:Number(id), ...updateData }),
         });
 
         if (!response.ok) {
