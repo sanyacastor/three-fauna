@@ -21,7 +21,7 @@ class DataUpdater {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id:399239316304298187, ...updateData }),
+          body: JSON.stringify({ id:'399239316304298187', ...updateData }),
         });
 
         if (!response.ok) {
