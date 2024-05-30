@@ -10,33 +10,20 @@
   <canvas id="scene"></canvas>
   <p id="testString"> Abcd </p>
   <ul id="placesList"></ul>
-  <script>
-    // Function to fetch places from the API
-    async function fetchPlaces() {
-      try {
-        const response = await fetch('/.netlify/functions/getAllPlaces');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const places = await response.json();
-        displayPlaces(places);
-      } catch (error) {
-        console.error('Failed to fetch places:', error);
-      }
-    }
-
-    function displayPlaces(places) {
-      const placesList = document.getElementById('placesList');
-      placesList.innerHTML = '';
-
-      places.forEach(place => {
-        const listItem = document.createElement('li');
-        listItem.textContent = place.name;
-        placesList.appendChild(listItem);
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', fetchPlaces);
-  </script>
+  
 </body>
 </html>
+
+<script src="/public/scripts/DataLoader.js"></script>
+  <script>
+    var dataLoader;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      var dataLoader = new DataLoader(false);
+      debugger;
+      console.log('DOM loaded');
+      const places = await dataLoader.loadSaveData();
+      dataLoader.displayPlaces(places);
+    });
+
+  </script>
