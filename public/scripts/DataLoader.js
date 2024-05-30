@@ -71,25 +71,3 @@ class DataLoader {
     });
   }
 }
-
-
-class DataUpdater {
-  constructor() {
-  }
-
-  async updatePlace(id, updateData) {
-    try {
-      const response = await fetch('/.netlify/functions/updatePlace', {
-        method: 'PUT',
-        body: JSON.stringify({ id, ...updateData }),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const updatedPlace = await response.json();
-      console.log('Place updated:', updatedPlace);
-    } catch (error) {
-      console.error('Failed to update place:', error);
-    }
-  }
-}
