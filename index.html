@@ -20,7 +20,7 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
       var dataLoader = new DataLoader(false);
-      debugger;
+      
       console.log('DOM loaded');
       const places = await dataLoader.loadSaveData();
       dataLoader.displayPlaces(places);
