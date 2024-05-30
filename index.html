@@ -21,18 +21,20 @@
     var dataLoader;
     var dataUpdater;
     var use_testdata_insteadDB = false;
-
-    var test_save_place = {"name":"Initial test place",
-      "xr_objects":[
-        {"id":399198485711159500,"name":"Polyhedronis","pos":[0,0.8,0],"rot":[0,0,0,1],"scale":[1,1,1]},
-        {"id":399198613290352830,"name":"Gearis42","pos":[0,-0.8,0],"rot":[0,0,0,1],"scale":[1,1,1]}]
-      }
+    
+    var tast_upload_savedata = {"name":"Test Place 86",
+                                "xr_objects":[
+                                  {"id":399198613290352830,
+                                  "name":"Gear01",
+                                  "pos":[0.33,-0.3,0.42],
+                                  "rot":[0.42,0.42,0,1],"scale":[1,1,1]}
+                                ]}
 
     document.addEventListener('DOMContentLoaded', async () => {
       var dataLoader = new DataLoader(use_testdata_insteadDB);
       var dataUpdater = new DataUpdater(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
       
-      dataUpdater.updatePlace('399239316304298187', test_save_place);
+      dataUpdater.updatePlace('399239316304298187', tast_upload_savedata);
       
       /*
       console.log('DOM loaded');
