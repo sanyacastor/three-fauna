@@ -7,13 +7,13 @@ import { ARButton } from 'three/examples/jsm/webxr/ARButton';
   import { debug_camera_controller } from './proteapot/scripts/debug_camera_controller.js';
   import { xrobj_spwnr } from './proteapot/scripts/xrobj_spwnr.js';
 */
-import { debug_camera_controller } from '/public/proteapot/scripts/debug_camera_controller.js'
-import { pivot_placer } from '/public/proteapot/scripts/pivot_placer.js'
-import { meshes_manager } from '/public/proteapot/scripts/meshes_manager.js'
+import { debug_camera_controller } from './scripts/debug_camera_controller.js'
+import { pivot_placer } from './scripts/pivot_placer.js'
+import { meshes_manager } from './scripts/meshes_manager.js'
 
-import { data_loader } from '/public/proteapot/scripts/data_loader.js';
-import { data_updater } from '/public/proteapot/scripts/data_updater.js';
-import { xrobjectdata_manager } from '/public/proteapot/scripts/xrobjectdata_manager.js';
+import { data_loader } from './scripts/data_loader.js';
+import { data_updater } from './scripts/data_updater.js';
+import { xrobjectdata_manager } from './scripts/xrobjectdata_manager.js';
 
 // ================== Scene setup ==================
 const scene = new Scene();
