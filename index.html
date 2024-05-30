@@ -33,13 +33,15 @@
     document.addEventListener('DOMContentLoaded', async () => {
       var dataLoader = new DataLoader(use_testdata_insteadDB);
       var dataUpdater = new DataUpdater(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
-      
+
+      Console.log("_________test load file_________");
       dataUpdater.updatePlace('399239316304298187', tast_upload_savedata);
-      
-      /*
-      console.log('DOM loaded');
+      Console.log("________/test load file_________");
+
+      Console.log("_________test read file_________");      
       var places = await dataLoader.loadSaveData();
-      dataLoader.displayPlaces(places);*/
+      dataLoader.displayPlaces(places);
+      Console.log("________/test read file_________");
     });
 
   </script>
