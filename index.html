@@ -8,7 +8,7 @@
 </head>
 <body>
   <canvas id="scene"></canvas>
-  <p id="testString"> Abcd </p>
+  <p id="testString"> Test page </p>
   <ul id="placesList"></ul>
   
 </body>
@@ -17,13 +17,26 @@
 <script src="/scripts/DataLoader.js"></script>
   <script>
     var dataLoader;
+    var dataUpdater;
+    var use_testdata_insteadDB = false;
+
+    var test_save_place = {"name":"Initial test place",
+      "xr_objects":[
+        {"id":399198485711159500,"name":"Polyhedronis","pos":[0,0.8,0],"rot":[0,0,0,1],"scale":[1,1,1]},
+        {"id":399198613290352830,"name":"Gearis42","pos":[0,-0.8,0],"rot":[0,0,0,1],"scale":[1,1,1]}]
+      }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      var dataLoader = new DataLoader(false);
+      var dataLoader = new DataLoader(use_testdata_insteadDB);
+      var dataUpdater = new DataUpdater(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
+      
+      dataUpdater.updatePlace(399239316304298187, test_save_place);
+      
 
+      /*
       console.log('DOM loaded');
-      const places = await dataLoader.loadSaveData();
-      dataLoader.displayPlaces(places);
+      var places = await dataLoader.loadSaveData();
+      dataLoader.displayPlaces(places);*/
     });
 
   </script>
