@@ -23,7 +23,7 @@ class DataLoader {
       const places = await response.json();
       this.saveDataString = JSON.stringify(places);
 
-      console.log("loaded_data: >>" + places + "<<");
+      console.log("loaded_data: >>" + JSON.stringify(places) + "<<");
       return places;
     } catch (error) {
       console.error('Failed to fetch places:', error);
