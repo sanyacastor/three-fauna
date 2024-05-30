@@ -5,44 +5,23 @@
   <link rel="icon" type="image/svg+xml" href="/threejs-icon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Three.js + TypeScript + Vite</title>
+  <link type="text/css" rel="stylesheet" href="/styles/proteapot_hud_menu.css">
+
 </head>
 <body>
+  <div class="buttons_panel">
+    <button class="hud_button" id="hud_save_button"> Save </button>
+    <button class="hud_button" id="hud_load_button"> Load </button>
+    <button class="hud_button" id="hud_pivot_button"> Pivot </button>
+    <button class="hud_button" id="hud_model_button"> Model </button>
+  </div>
+
   <canvas id="scene"></canvas>
   <p> iteration51 </p>
   <p id="testString"> Test page </p>
   <ul id="placesList"></ul>
-  
+
+  <!-- Import the scripts as modules -->
+  <script type="module" src="/scripts/main.js"></script>
 </body>
 </html>
-
-<script src="/scripts/DataLoader.js"></script>
-<script src="/scripts/DataUpdater.js"></script>
-  <script>
-    var dataLoader;
-    var dataUpdater;
-    var use_testdata_insteadDB = false;
-    
-    var tast_upload_savedata = {"name":"Test Place 86",
-                                "xr_objects":[
-                                  {"id":399198613290352830,
-                                  "name":"Gear01",
-                                  "pos":[0.33,-0.3,0.42],
-                                  "rot":[0.42,0.42,0,1],"scale":[1,1,1]}
-                                ]}
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      var dataLoader = new DataLoader(use_testdata_insteadDB);
-      var dataUpdater = new DataUpdater(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
-
-      console.log("_________test load file_________");
-        dataUpdater.updatePlace('399239316304298187', tast_upload_savedata);
-      console.log("________/test load file_________");
-
-      console.log("_________test read file_________");      
-        let res = await dataLoader.loadSaveData();
-        let exactPlace = dataLoader.pickExactPlace('399239316304298187');
-        dataLoader.displayPlaces([exactPlace]);
-      console.log("________/test read file_________");
-    });
-
-  </script>
