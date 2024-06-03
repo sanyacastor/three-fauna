@@ -26,10 +26,10 @@ export class meshes_manager {
                     xr_objects.push(xr_object);
             });
 
+            /*coll: { name: "Place" },
+            id: this.current_place_id,
+            ts: { isoString: new Date().toISOString() },*/
             let save_data = {
-                coll: { name: "Place" },
-                id: this.current_place_id,
-                ts: { isoString: new Date().toISOString() },
                 name: this.current_place_name,
                 xr_objects: xr_objects
             };
