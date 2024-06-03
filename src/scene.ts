@@ -111,8 +111,15 @@ function subscribeButtons() {
   });
 
   select_model_dropdown.addEventListener('change', () => {
-    console.log('model dropdown changed ' + select_model_dropdown.value);
-    meshesManager.prepare_mesh_with_id(select_model_dropdown.value);
+    const selectModelDropdown = document.getElementById('select_model_dropdown') as HTMLSelectElement;
+
+    
+    if (selectModelDropdown) {
+      console.log('model dropdown changed ' + selectModelDropdown.value);
+      meshesManager.prepare_mesh_with_id(selectModelDropdown.value);
+    } else {
+        console.error('Select element not found');
+    }
   });
 
   confirm_button.addEventListener('click', () => {
