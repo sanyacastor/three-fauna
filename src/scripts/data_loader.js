@@ -7,7 +7,6 @@ export class data_loader {
   }
 
   async loadSaveData() {
-    debugger;
     if (this.useTestData) {
       this.saveDataString = this.testSaveString;
        this.allPlaces = JSON.parse(this.testSaveString);

@@ -49,7 +49,7 @@ document.body.appendChild(renderer.domElement);
 var use_testdata_insteadDB = false;
 var xrobjectDataManager =  new xrobjectdata_manager();
 var dataLoader = new data_loader(use_testdata_insteadDB);
-var dataUpdater = new data_updater(use_testdata_insteadDB, '/.netlify/functions/updatePlace.js');
+var dataUpdater = new data_updater(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
 var loader = new FBXLoader();
 
 xrobjectDataManager.prepare_dropdown(document.getElementById('select_model_dropdown'));
