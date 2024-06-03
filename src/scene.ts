@@ -49,6 +49,7 @@ document.body.appendChild(renderer.domElement);
 var use_testdata_insteadDB = false;
 var xrobjectDataManager =  new xrobjectdata_manager();
 var dataLoader = new data_loader(use_testdata_insteadDB);
+var dataUpdater = new data_updater(use_testdata_insteadDB, '/.netlify/functions/updatePlace.js');
 var loader = new FBXLoader();
 
 xrobjectDataManager.prepare_dropdown(document.getElementById('select_model_dropdown'));
@@ -89,6 +90,7 @@ function subscribeButtons() {
   save_button.addEventListener('click', () => {
     console.log('save button clicked');
     let savejson = meshesManager.get_save_data();
+    dataUpdater.updatePlace('399239316304298187', savejson);
     console.log("savejson: >>" + JSON.stringify(savejson) + "<<");
   });
 
