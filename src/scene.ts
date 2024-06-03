@@ -90,7 +90,7 @@ function subscribeButtons() {
   save_button.addEventListener('click', () => {
     console.log('save button clicked');
     let savejson = meshesManager.get_save_data();
-    dataUpdater.updatePlace('399239316304298187', savejson);
+    dataUpdater.updatePlace("399239316304298187", savejson);
     console.log("savejson: >>" + JSON.stringify(savejson) + "<<");
   });
 
