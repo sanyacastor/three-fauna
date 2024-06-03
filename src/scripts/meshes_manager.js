@@ -1,9 +1,10 @@
 export class meshes_manager {
-    constructor(loader, pivotplacer, camera, scene) {
+    constructor(loader, pivotplacer, camera, scene, xrobjectdata_manager) {
         this.loader = loader;
         this.pivotplacer = pivotplacer;
         this.camera = camera;
         this.scene = scene;
+        this.xrobjectdata_manager = xrobjectdata_manager;
 
         this.current_place_id = 0;
         this.current_place_name = "unnamed place"
@@ -11,7 +12,6 @@ export class meshes_manager {
         this.get_save_data = () => {
             let xr_objects = [];
             this.pivotplacer.general_pivot.children.forEach((model) => {
-                
 
                 let xr_object = {
                     id: model.xrobjectid,
@@ -35,6 +35,27 @@ export class meshes_manager {
             };
 
             return save_data;
+        }
+
+        this.prepare_mesh_with_id = async (id) => {
+            let objdata = this.xrobjectdata_manager.get_xrobject(id);
+
+            if (objdata === undefined) {
+                console.log("Error: Could not find xrobject with id: ", id);
+                return;
+            }
+
+            console.log("prepare_mesh_with_id. id: " + id + " model_path: ", objdata.model_path);
+
+            loader.load(objdata.model_path, (model) => {
+                model.name = objdata.name;
+                this.pivotplacer.general_pivot.add(model);
+                model.xrobjectid = id;
+                model.xrobjectname = objdata.name;
+
+                this.pivotplacer.start_model_placement(model);
+                //this.camera.attach(model);
+            });
         }
 
         this.spawn_meshes = (place_data, xrobjectdata_manager, loader) => {

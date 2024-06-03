@@ -51,10 +51,12 @@ var xrobjectDataManager =  new xrobjectdata_manager();
 var dataLoader = new data_loader(use_testdata_insteadDB);
 var loader = new FBXLoader();
 
+xrobjectDataManager.prepare_dropdown(document.getElementById('select_model_dropdown'));
+
 // ----------------- main ----------------
 var pivotplacer = new pivot_placer(camera, loader, scene, '/proteapot/meshes/sheet_frame_corners.fbx');
 var meshesManager = new meshes_manager(loader, pivotplacer, camera, scene, xrobjectDataManager);
-
+xrobjectDataManager.register_meshes_manager(meshesManager);
 // ---------------- for debug ----------------
 let debug_camera_controller_instance = new debug_camera_controller(camera, 0.1);
 
@@ -79,7 +81,10 @@ function subscribeButtons() {
   const save_button = document.getElementById('hud_save_button');
   const load_button = document.getElementById('hud_load_button');
   const pivot_button = document.getElementById('hud_pivot_button');
-  const model_button = document.getElementById('hud_model_button');
+  const select_model_dropdown = document.getElementById('select_model_dropdown');
+  const confirm_button = document.getElementById('hud_confirm_button');
+  const abort_button = document.getElementById('hud_abort_button');
+  const adjust_button = document.getElementById('hud_adjust_button');
 
   save_button.addEventListener('click', () => {
     console.log('save button clicked');
@@ -95,61 +100,48 @@ function subscribeButtons() {
     meshesManager.spawn_meshes(data, xrobjectDataManager, loader);
   });
 
-  pivot_button.addEventListener('click', () => {
+  pivot_button.addEventListener('click', async () => {
     console.log(pivotplacer.crosshair);
-    pivotplacer.place_general_pivot_at_crosshair('/proteapot/meshes/sheet_frame.fbx');
+    await pivotplacer.place_general_pivot_at_crosshair('/proteapot/meshes/sheet_frame.fbx');
   });
 
-  model_button.addEventListener('click', () => {
+
+  select_model_dropdown.addEventListener('click', () => {
     console.log('model button clicked');
   });
-}
 
-
-  /*
-  import * as THREE from '/build/three.module.js';
-
-  import { DataLoader } from './DataLoader.js';
-  import { DataUpdater } from './DataUpdater.js';
-  import { DataSaveLoadTests } from './DataSaveLoadTests.js';
-
-  let use_testdata_insteadDB = false;
-
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    const dataLoader = new DataLoader(use_testdata_insteadDB);
-    const dataUpdater = new DataUpdater(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
-    const dataSaveLoadTester = new DataSaveLoadTests(use_testdata_insteadDB, '/.netlify/functions/updatePlace');
-  });*/
-
-  /*
-let polyhedron: any;
-
-loader.load('/proteapot/meshes/polyhedron.fbx', function (object: any) {
-  object.traverse(function (child: any) {
-    polyhedron = object;
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-    }
-    scene.add(object);
-    object.position.set(0,0,-1);
-    object.scale.set(1,1,1);
-    console.log("loaded" + object);
-
-    //object.add(cube);
-    //cube.scale.set(0.5,0.5,0.5);
+  select_model_dropdown.addEventListener('change', () => {
+    console.log('model dropdown changed ' + select_model_dropdown.value);
+    meshesManager.prepare_mesh_with_id(select_model_dropdown.value);
   });
-});
 
+  confirm_button.addEventListener('click', () => {
+    console.log('confirm button clicked');
+    pivotplacer.confirm_placement();
+  });
 
+  abort_button.addEventListener('click', () => {
+    console.log('abort button clicked');
+    pivotplacer.delete_placeble_model();
+  });
 
+  adjust_button.addEventListener('click', () => {
+    var instance = castRay(scene, camera);
 
-const geometry = new BoxGeometry();
-const material = new MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new Mesh(geometry, material);
-scene.add(cube);
+    if (instance != null) {
+      console.log('adjust button clicked');
+      pivotplacer.adjust_position(instance);
+    }
+  });
 
+  function castRay(scene, camera) {
+    // Create a raycaster and set its origin and direction
+    const raycaster = new THREE.Raycaster();
+    const centerVector = new THREE.Vector2(0, 0); // Center of the screen in NDC (Normalized Device Coordinates)
+    raycaster.setFromCamera(centerVector, camera);
 
-
-*/
+    // Calculate objects intersecting the picking ray
+    const intersects = raycaster.intersectObjects(scene.children);
+    return intersects.length > 0 ? intersects[0].object : null;
+  }
+}
