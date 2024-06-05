@@ -1,3 +1,6 @@
+
+import * as THREE from 'three';
+
 export class pivot_placer {
     constructor(camera_ref, loader, scene, crosshair_path, pivot_path, pivot_mesh_path){
 
@@ -55,27 +58,58 @@ export class pivot_placer {
             this.pivot_visualization.position.set(0,0,0);
             this.pivot_visualization.rotation.set(0,0,0);
         });
-
+        
         this.place_general_pivot_at_crosshair  = async () => {
             //!!!!! async troubles !!!!!!!
             if(this.crosshair == null){
                 console.log("Crosshair not loaded yet");
                 return;
             }
-
-            this.crosshair.add(this.general_pivot); 
-            this.crosshair.add(this.pivot_visualization); 
             
+            this.crosshair.add(this.pivot_visualization); 
             this.pivot_visualization.position.set(0,0,0);
             this.pivot_visualization.rotation.set(0,0,0);
-
+            this.scene.attach(this.pivot_visualization);
+            
+            this.crosshair.add(this.general_pivot); 
             this.general_pivot.position.set(0,0,0);
             this.general_pivot.rotation.set(0,0,0);
-
-            this.scene.attach(this.pivot_visualization);
             this.scene.attach(this.general_pivot);
 
             this.general_pivot.rotation.set(0,0,0);
+            
+            this.visualization_global_forward = new THREE.Vector3(0,0,-1);
+            this.visualization_global_forward.applyQuaternion(this.pivot_visualization.quaternion);
+
+            this.forward_horizontal_projection = new THREE.Vector3(this.visualization_global_forward.x, 0, this.visualization_global_forward.z);
+            this.forward_horizontal_projection.normalize();
+
+            //draw forward vector
+            /*var geometry = new THREE.BufferGeometry(); // Replace THREE.Geometry() with THREE.BufferGeometry()
+            var material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+            var points = [];
+            points.push(this.general_pivot.position);
+            points.push(this.general_pivot.position.clone().add(this.forward_horizontal_projection));
+            geometry.setFromPoints(points);
+            var line = new THREE.Line(geometry, material);
+            this.scene.add(line);*/
+
+            let dot_product = this.forward_horizontal_projection.dot(new THREE.Vector3(0,0,1));
+            let angle = Math.acos(dot_product);
+            console.log("dot_product: " + dot_product + "angle: " + angle);
+
+            const up = new THREE.Vector3(0, 1, 0);
+            this.general_pivot.rotateOnAxis(up, (1.0*angle));
+            //this.general_pivot.rotation.set(0, this.angle, 0);
+            // const up = new THREE.Vector3(0, 1, 0);
+            // const vector_right = new THREE.Vector3();
+            // const right = new THREE.Vector3(1, 0, 0).applyQuaternion(this.pivot_visualization.quaternion);
+            // const forward_cross_res = new THREE.Vector3();
+            // forward_cross_res.crossVectors(up, right);
+
+            // this.general_pivot.up = up;
+            // this.general_pivot.lookAt(forward_cross_res);
+
         };
 /*
         // not required anymore. all pivots are prespawned
