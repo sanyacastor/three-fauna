@@ -28,6 +28,21 @@ export class debug_camera_controller {
         this.camera.position.set(pos.x, pos.y, pos.z);
     }
 
+    rotatePYR(delta_pitch, delta_yaw, delta_roll) {
+        let camera_forward = new THREE.Vector3(0, 0, -1);
+        camera_forward.applyQuaternion(this.camera.quaternion);
+
+        let camera_right = new THREE.Vector3(1, 0, 0);
+        camera_right.applyQuaternion(this.camera.quaternion);
+
+        let camera_up = new THREE.Vector3(0, 1, 0);
+        camera_up.applyQuaternion(this.camera.quaternion);
+
+        this.camera.rotateOnAxis(camera_right, delta_pitch);
+        this.camera.rotateOnAxis(camera_up, delta_yaw);
+        this.camera.rotateOnAxis(camera_forward, delta_roll);
+    }
+
     handleKeyDown(event) {
         switch(event.key) {
             case 'w':
@@ -67,16 +82,16 @@ export class debug_camera_controller {
                 this.moveCameraXYZ(0, this.camera_move_amplitude * 10, 0);
                 break;
             case 'ArrowLeft':
-                this.camera.rotation.y += this.camera_move_amplitude;
+                this.rotatePYR(0, this.camera_move_amplitude, 0);
                 break;
             case 'ArrowRight':
-                this.camera.rotation.y -= this.camera_move_amplitude;
+                this.rotatePYR(0, -this.camera_move_amplitude, 0);
                 break;
             case 'ArrowUp':
-                this.camera.rotation.x += this.camera_move_amplitude;
+                this.rotatePYR(this.camera_move_amplitude, 0, 0);
                 break;
             case 'ArrowDown':
-                this.camera.rotation.x -= this.camera_move_amplitude;
+                this.rotatePYR(-this.camera_move_amplitude, 0, 0);
                 break;
         }
     }

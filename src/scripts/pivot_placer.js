@@ -84,22 +84,35 @@ export class pivot_placer {
             this.forward_horizontal_projection = new THREE.Vector3(this.visualization_global_forward.x, 0, this.visualization_global_forward.z);
             this.forward_horizontal_projection.normalize();
 
+            let dot_product = this.forward_horizontal_projection.dot(new THREE.Vector3(0,0,1));
+            let cross_sign;
+            let cross_res = new THREE.Vector3();
+            cross_res.crossVectors(this.forward_horizontal_projection, new THREE.Vector3(0,0,1));
+            if(cross_res.y > 0){
+                cross_sign = 1;
+            }else{
+                cross_sign = -1;
+            }
+            let angle = Math.acos(dot_product);
+            console.log("dot_product: " + dot_product + "angle: " + angle);
+            console.log("cross_sign: " + cross_sign);
+
+            const up = new THREE.Vector3(0, cross_sign, 0);
+            this.general_pivot.rotateOnAxis(up, (-1*angle));
+
             //draw forward vector
-            /*var geometry = new THREE.BufferGeometry(); // Replace THREE.Geometry() with THREE.BufferGeometry()
+            var geometry = new THREE.BufferGeometry(); // Replace THREE.Geometry() with THREE.BufferGeometry()
             var material = new THREE.LineBasicMaterial({ color: 0x0000ff });
             var points = [];
             points.push(this.general_pivot.position);
-            points.push(this.general_pivot.position.clone().add(this.forward_horizontal_projection));
+            points.push(this.general_pivot.position.clone().add( new THREE.Vector3(0,0,-1)));
+            points.push(this.general_pivot.position);
+            points.push(this.general_pivot.position.clone().add( this.forward_horizontal_projection));
             geometry.setFromPoints(points);
             var line = new THREE.Line(geometry, material);
-            this.scene.add(line);*/
+            this.scene.add(line);
 
-            let dot_product = this.forward_horizontal_projection.dot(new THREE.Vector3(0,0,1));
-            let angle = Math.acos(dot_product);
-            console.log("dot_product: " + dot_product + "angle: " + angle);
 
-            const up = new THREE.Vector3(0, 1, 0);
-            this.general_pivot.rotateOnAxis(up, (1.0*angle));
             //this.general_pivot.rotation.set(0, this.angle, 0);
             // const up = new THREE.Vector3(0, 1, 0);
             // const vector_right = new THREE.Vector3();
