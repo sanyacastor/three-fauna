@@ -55,7 +55,11 @@ var loader = new FBXLoader();
 xrobjectDataManager.prepare_dropdown(document.getElementById('select_model_dropdown'));
 
 // ----------------- main ----------------
-var pivotplacer = new pivot_placer(camera, loader, scene, '/proteapot/meshes/sheet_frame_corners.fbx');
+var pivotplacer = new pivot_placer(camera, loader, scene,
+                                   '/proteapot/meshes/sheet_frame_corners.fbx',
+                                   '/proteapot/meshes/pivot.fbx', 
+                                   '/proteapot/meshes/sheet_frame.fbx');
+                                   
 var meshesManager = new meshes_manager(loader, pivotplacer, camera, scene, xrobjectDataManager);
 xrobjectDataManager.register_meshes_manager(meshesManager);
 // ---------------- for debug ----------------
@@ -104,7 +108,7 @@ function subscribeButtons() {
 
   pivot_button.addEventListener('click', async () => {
     console.log(pivotplacer.crosshair);
-    await pivotplacer.place_general_pivot_at_crosshair('/proteapot/meshes/sheet_frame.fbx');
+    await pivotplacer.place_general_pivot_at_crosshair();
   });
 
 
