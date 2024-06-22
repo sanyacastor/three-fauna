@@ -28,7 +28,7 @@ renderer.xr.enabled = true;
 camera.position.z = 5;
 
 // ------------------ Lights ------------------
-const light = new HemisphereLight( 0xffffff, 0xff0000, 3 );
+const light = new HemisphereLight( 0xffffff, 0xffffe0, 3 );
 light.position.set( 0.5, 1, 0.25 );
 scene.add( light );
 
