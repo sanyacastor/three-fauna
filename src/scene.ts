@@ -42,7 +42,6 @@ const container = document.createElement( 'div' );
 document.body.appendChild( container );
 container.appendChild( renderer.domElement );
 document.body.appendChild(renderer.domElement);
-
 // ================== Tools =================
 
 // ----------------- data -----------------
@@ -59,8 +58,8 @@ var pivotplacer = new pivot_placer(camera, loader, scene,
                                    '/proteapot/meshes/sheet_frame_corners.fbx',
                                    '/proteapot/meshes/pivot.fbx', 
                                    '/proteapot/meshes/sheet_frame.fbx');
-                                   
-var meshesManager = new meshes_manager(loader, pivotplacer, camera, scene, xrobjectDataManager);
+var texture_loader = new THREE.TextureLoader();                     
+var meshesManager = new meshes_manager(THREE, loader, texture_loader, pivotplacer, camera, scene, xrobjectDataManager);
 xrobjectDataManager.register_meshes_manager(meshesManager);
 // ---------------- for debug ----------------
 let debug_camera_controller_instance = new debug_camera_controller(camera, 0.1);

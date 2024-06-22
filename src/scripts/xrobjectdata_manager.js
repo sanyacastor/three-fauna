@@ -6,18 +6,19 @@ export class xrobjectdata_manager {
 
         this.test_xrobjects_savedata = [
             {
-                "id": "399239488204701904",
-                "coll": "Model",
-                "ts": "2024-05-30T18:01:02.650Z",
-                "name": "turtle",
-                "model_path": "/proteapot/meshes/turtle.fbx"
-            },
-            {
                 "id": "399332498998296779",
                 "coll": "Model",
                 "ts": "2024-05-30T18:00:27.706Z",
                 "name": "gear01",
                 "model_path": "/proteapot/meshes/gear01.fbx"
+            },
+            {
+                "id": "399239488204701904",
+                "coll": "Model",
+                "ts": "2024-05-30T18:01:02.650Z",
+                "name": "turtle",
+                "model_path": "/proteapot/meshes/turtletex.fbx",
+                "texture_path": "/proteapot/textures/turtle.jpeg"
             },
             {
                 "id": "399332537155977419",

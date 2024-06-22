@@ -1,5 +1,8 @@
 export class meshes_manager {
-    constructor(loader, pivotplacer, camera, scene, xrobjectdata_manager) {
+
+    constructor(theejsref, loader, texture_loader, pivotplacer, camera, scene, xrobjectdata_manager) {
+        this.THREE = theejsref;
+
         this.loader = loader;
         this.pivotplacer = pivotplacer;
         this.camera = camera;
@@ -8,6 +11,8 @@ export class meshes_manager {
 
         this.current_place_id = 0;
         this.current_place_name = "unnamed place"
+
+        this.texture_loader = texture_loader;
 
         this.get_save_data = () => {
             let xr_objects = [];
@@ -47,11 +52,30 @@ export class meshes_manager {
 
             console.log("prepare_mesh_with_id. id: " + id + " model_path: ", objdata.model_path);
 
+            if( objdata.texture_path != undefined && objdata.texture_path != "" ){
+                let texture = await this.texture_loader.load(objdata.texture_path);
+
+                texture.wrapS = this.THREE.RepeatWrapping;
+                texture.wrapT = this.THREE.RepeatWrapping;
+
+                objdata.texture = texture;
+            }
+
             loader.load(objdata.model_path, (model) => {
                 model.name = objdata.name;
                 this.pivotplacer.general_pivot.add(model);
                 model.xrobjectid = id;
                 model.xrobjectname = objdata.name;
+
+                if (objdata.texture != undefined && objdata.texture != "" && objdata.texture != null) {
+                    model.traverse((child) => {
+                        if (child.isMesh) {
+                            child.material.map = objdata.texture;
+                            child.material.needsUpdate = true;
+                        }
+                    });
+                }
+
 
                 this.pivotplacer.start_model_placement(model);
                 //this.camera.attach(model);
