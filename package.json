@@ -14,9 +14,11 @@
     "vite": "^5.2.11"
   },
   "dependencies": {
+    "@ar-js-org/ar.js": "^3.4.5",
     "fauna": "^2.0.1",
     "faunadb": "^4.8.0",
     "lil-gui": "^0.19.2",
-    "three": "^0.164.1"
+    "three": "^0.164.1",
+    "threear": "^1.0.0-alpha.5"
   }
 }

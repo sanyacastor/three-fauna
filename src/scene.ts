@@ -14,6 +14,7 @@ import { meshes_manager } from './scripts/meshes_manager.js'
 import { data_loader } from './scripts/data_loader.js';
 import { data_updater } from './scripts/data_updater.js';
 import { xrobjectdata_manager } from './scripts/xrobjectdata_manager.js';
+import * as threear from 'threear';
 
 // ================== Scene setup ==================
 const scene = new Scene();
@@ -63,6 +64,58 @@ var meshesManager = new meshes_manager(THREE, loader, texture_loader, pivotplace
 xrobjectDataManager.register_meshes_manager(meshesManager);
 // ---------------- for debug ----------------
 let debug_camera_controller_instance = new debug_camera_controller(camera, 0.1);
+
+
+// ----------------- markers -----------------
+var markerGroup = new THREE.Group();
+scene.add(markerGroup);
+
+var source = new threear.Source({renderer: renderer as any, camera: camera as any}); // Property 'applyMatrix' is missing in type 'import("c:/SudoNo/stud/Bob/threejs/three-fauna/node_modules/@types/three/src/cameras/Camera").Camera' but required in type 'THREE.Camera'.ts(2741)
+//Object3D.d.ts(183, 2): 'applyMatrix' is declared here.
+//Source.ts(3, 2): The expected type comes from property 'camera' which is declared here on type 'Partial<SourceParameters>'
+
+
+threear.initialize({ source: source }).then((controller) => {
+  				// add a torus knot		
+          var geometry = new THREE.BoxGeometry(1,1,1);
+          var material = new THREE.MeshNormalMaterial(); 
+          var torus = new THREE.Mesh( geometry, material );
+          torus.position.y = 0.5
+          markerGroup.add(torus);
+  
+          var material = new THREE.MeshNormalMaterial({
+            transparent : true,
+            opacity: 0.5,
+            side: THREE.DoubleSide
+          }); 
+          var cube = new THREE.Mesh( geometry, material );
+          cube.position.y	= geometry.parameters.height / 2;
+          markerGroup.add(cube)
+  
+          var patternMarker = new threear.PatternMarker({
+            patternUrl: '../data/patt.hiro',
+            markerObject: markerGroup as any
+          });
+  
+          controller.trackMarker(patternMarker);
+  
+          // run the rendering loop
+          var lastTimeMsec = 0;
+          requestAnimationFrame(function animate(nowMsec){
+            // keep looping
+            requestAnimationFrame( animate );
+            // measure time
+            lastTimeMsec = lastTimeMsec || nowMsec-1000/60;
+            var deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
+            lastTimeMsec = nowMsec;
+            // call each update function
+            controller.update( source.domElement );
+            // cube.rotation.x += deltaMsec/10000 * Math.PI
+            torus.rotation.y += deltaMsec/1000 * Math.PI
+            torus.rotation.z += deltaMsec/1000 * Math.PI
+            renderer.render( scene, camera );
+          });
+});
 
 // ----------------- test -----------------
 
