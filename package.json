@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/three": "^0.163.0",
+    "@types/three": "^0.168.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
   },
@@ -18,7 +18,7 @@
     "fauna": "^2.0.1",
     "faunadb": "^4.8.0",
     "lil-gui": "^0.19.2",
-    "three": "^0.164.1",
+    "three": "^0.168.0",
     "threear": "^1.0.0-alpha.5"
   }
 }
